@@ -23,7 +23,8 @@ class _MessageFooterState extends State<MessageFooter> {
       'text': inputText,
       'createdAt': Timestamp.now(),
       'uid': user.uid,
-      'userName': userData.data['userName']
+      'userName': userData.data['userName'],
+      'imageUrl': userData.data['imageUrl']
     });
     /**
      * set input text as empty

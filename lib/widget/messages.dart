@@ -26,7 +26,8 @@ class Messages extends StatelessWidget {
                   return MessageItem(
                       document[index]['text'],
                       document[index]['uid'] == userSnapchat.data.uid,
-                      document[index]['userName']);
+                      document[index]['userName'],
+                      document[index]['imageUrl'],);
                 });
           },
         );

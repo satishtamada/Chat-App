@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,9 +16,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File _image;
   final picker = ImagePicker();
+  String imageUrl = '';
+  String userName="";
+  String userEmail='';
 
   Future getImage() async {
-    print('che');
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
@@ -26,12 +31,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  void getUserImage() async {
+    var user = await FirebaseAuth.instance.currentUser();
+    final ref =
+        FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+    var url = await ref.getDownloadURL();
+    setState(() {
+      imageUrl = url;
+    });
+    var userData =
+    await Firestore.instance.collection('users').document(user.uid).get();
+    setState(() {
+      userName=userData['userName'];
+      userEmail=userData['userEmail'];
+    });
+
+  }
+
+
+
+  @override
+  initState() {
+    getUserImage();
+    super.initState();
+  }
+
+  void saveImage() async {
+    if (_image != null) {
+      var user = await FirebaseAuth.instance.currentUser();
+      final ref =
+          FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+      await ref.putFile(_image).onComplete;
+      var url = await ref.getDownloadURL();
+
+      await Firestore.instance
+          .collection('users')
+          .document(user.uid)
+          .updateData({'imageUrl': url});
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              saveImage();
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
@@ -39,7 +93,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: <Widget>[
             CircleAvatar(
               radius: 100,
-              child:_image!=null? Image.file(_image):Text(''),
+              backgroundImage:
+                  _image != null ? FileImage(_image) : NetworkImage(imageUrl),
             ),
             FlatButton.icon(
                 onPressed: () {
@@ -50,8 +105,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: 70,
             ),
-            Text('SATISH KUMAR'),
-            Text('SATISH@Gmai.com')
+            Text(userName),
+            Text(userEmail)
           ],
         ),
       ),

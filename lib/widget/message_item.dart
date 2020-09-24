@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 class MessageItem extends StatelessWidget {
   final String message;
   final String userName;
+  String userImage;
   bool isOwner = false;
 
-  MessageItem(this.message, this.isOwner, this.userName);
+  MessageItem(this.message, this.isOwner, this.userName, this.userImage);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,18 @@ class MessageItem extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              userName,
-              style: TextStyle(color: Colors.grey),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 10,
+                  backgroundImage:userImage!=null? NetworkImage(userImage):NetworkImage("///"),
+                ),
+                Text(
+                  userName,
+                  style: TextStyle(color: Colors.grey),
+                )
+              ],
             ),
           )
         ],
