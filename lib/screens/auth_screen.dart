@@ -1,3 +1,5 @@
+import 'package:chat_app/screens/chat_screen.dart';
+import 'package:chat_app/screens/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,16 +36,19 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void doRegister(BuildContext ctx) async {
+    FocusScope.of(context).unfocus();
     var isValid = _form.currentState.validate();
     if (isValid) {
       _form.currentState.save();
+      setState(() {
+        isLoaderShowing = true;
+      });
       AuthResult authResult;
       try {
         if (isLogin) {
           authResult = await auth.signInWithEmailAndPassword(
               email: userEmail, password: userPassword);
         } else {
-          print(username);
           authResult = await auth.createUserWithEmailAndPassword(
               email: userEmail, password: userPassword);
           await Firestore.instance
@@ -51,20 +56,30 @@ class _AuthScreenState extends State<AuthScreen> {
               .document(authResult.user.uid)
               .setData({'userName': username, 'userEmail': userEmail});
         }
-      } catch (e) {
+        setState(() {
+          isLoaderShowing = false;
+        });
+        if (authResult != null) {
+          Navigator.of(context).pushReplacementNamed(SplashScreen.routeName);
+        }
+      } on PlatformException catch (e) {
         Fluttertoast.showToast(
-            msg: e.toString(),
+            msg: e.message,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+        setState(() {
+          isLoaderShowing = false;
+        });
+      } catch (e) {
         print("error");
-        print(e.toString());
+        setState(() {
+          isLoaderShowing = false;
+        });
       }
-      print(userEmail);
-      print(userPassword);
     }
   }
 
@@ -149,7 +164,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       },
                       child: Text(
                           isLogin ? 'Create new user' : 'Already register..!'),
-                    )
+                    ),
+                    if (isLoaderShowing) CircularProgressIndicator(),
                   ],
                 ),
               ),

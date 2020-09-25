@@ -15,10 +15,15 @@ class UserDataProvider {
   static void addUser(
       String userName, String userEmail, String userUid, String userProfile) {
     User user = new User(userName, userEmail, userUid, userProfile);
+    userData.clear();
     userData.add(user);
   }
 
   static User getUser() {
     return userData[0];
   }
+  static void clearUser() {
+    return userData.clear();
+  }
+
 }

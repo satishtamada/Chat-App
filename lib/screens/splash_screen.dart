@@ -21,20 +21,30 @@ class _SplashScreenState extends State<SplashScreen> {
   String userUid = "";
 
   void checkIsUserLoginStatus() async {
-    var user = await FirebaseAuth.instance.currentUser();
-    if (user != null) {
-      final ref =
-          FirebaseStorage.instance.ref().child('user_images').child(user.uid);
-      var url = await ref.getDownloadURL();
-      var userData =
-          await Firestore.instance.collection('users').document(user.uid).get();
-      userName = userData['userName'];
-      userEmail = userData['userEmail'];
-      userUid = user.uid;
-      userProfileImage = url;
-      UserDataProvider.addUser(userName, userEmail, userUid, userProfileImage);
-      Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
-    } else {
+    try {
+      var user = await FirebaseAuth.instance.currentUser();
+      if (user != null) {
+        final ref =
+            FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+        var url = await ref.getDownloadURL();
+        var userData = await Firestore.instance
+            .collection('users')
+            .document(user.uid)
+            .get();
+        userName = userData['userName'];
+        userEmail = userData['userEmail'];
+        userUid = user.uid;
+        userProfileImage = url;
+        UserDataProvider.addUser(
+            userName, userEmail, userUid, userProfileImage);
+        if (userData != null)
+          Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
+        else
+          Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
+      } else {
+        Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
+      }
+    } catch (e) {
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }
   }

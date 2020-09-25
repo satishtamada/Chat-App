@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageItem extends StatelessWidget {
   final String message;
@@ -17,7 +18,7 @@ class MessageItem extends StatelessWidget {
             isOwner ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(
                 color: isOwner ? Colors.red : Colors.grey,
                 borderRadius: BorderRadius.circular(10)),
@@ -25,23 +26,17 @@ class MessageItem extends StatelessWidget {
             child: Text(
               message,
               softWrap: true,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 15),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
-                  radius: 10,
-                  backgroundImage:userImage!=null? NetworkImage(userImage):NetworkImage("///"),
-                ),
                 Text(
                   userName,
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 )
               ],
             ),

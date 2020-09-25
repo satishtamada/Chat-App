@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -17,8 +16,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File _image;
   final picker = ImagePicker();
   String imageUrl = '';
-  String userName="";
-  String userEmail='';
+  String userName = "";
+  String userEmail = '';
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -41,15 +40,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       imageUrl = url;
     });
     var userData =
-    await Firestore.instance.collection('users').document(user.uid).get();
+        await Firestore.instance.collection('users').document(user.uid).get();
     setState(() {
-      userName=userData['userName'];
-      userEmail=userData['userEmail'];
+      userName = userData['userName'];
+      userEmail = userData['userEmail'];
     });
-
   }
-
-
 
   @override
   initState() {
@@ -69,7 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .collection('users')
           .document(user.uid)
           .updateData({'imageUrl': url});
-
     }
   }
 
@@ -92,10 +87,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircleAvatar(
-              radius: 100,
-              backgroundImage:
-                  _image != null ? FileImage(_image) : NetworkImage(imageUrl),
+            Hero(
+              tag: "222",
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage:
+                    _image != null ? FileImage(_image) : NetworkImage(imageUrl),
+              ),
             ),
             FlatButton.icon(
                 onPressed: () {

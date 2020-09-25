@@ -18,13 +18,7 @@ class HomeApp extends StatefulWidget {
 class _HomeAppState extends State<HomeApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-/*
-          ChangeNotifierProvider(create: (ctx) => UserDataProvider()),
-*/
-        ],
-        child: MaterialApp(
+    return MaterialApp(
           title: 'ChatApp',
           initialRoute: SplashScreen.routeName,
           routes: {
@@ -54,6 +48,6 @@ class _HomeAppState extends State<HomeApp> {
                       fontSize: 20,
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.bold))),
-        ));
+        );
   }
 }
