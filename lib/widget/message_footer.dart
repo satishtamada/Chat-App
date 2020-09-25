@@ -24,7 +24,6 @@ class _MessageFooterState extends State<MessageFooter> {
       'createdAt': Timestamp.now(),
       'uid': user.uid,
       'userName': userData.data['userName'],
-      'imageUrl': userData.data['imageUrl']
     });
     /**
      * set input text as empty

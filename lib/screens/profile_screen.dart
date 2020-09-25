@@ -36,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final ref =
         FirebaseStorage.instance.ref().child('user_images').child(user.uid);
     var url = await ref.getDownloadURL();
+    print(url);
     setState(() {
       imageUrl = url;
     });

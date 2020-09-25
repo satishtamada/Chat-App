@@ -1,9 +1,14 @@
+import 'package:chat_app/model/user.dart';
 import 'package:chat_app/widget/message_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Messages extends StatelessWidget {
+  User user;
+
+  Messages(this.user);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -24,10 +29,11 @@ class Messages extends StatelessWidget {
                 itemCount: document.length,
                 itemBuilder: (ctx, index) {
                   return MessageItem(
-                      document[index]['text'],
-                      document[index]['uid'] == userSnapchat.data.uid,
-                      document[index]['userName'],
-                      document[index]['imageUrl'],);
+                    document[index]['text'],
+                    document[index]['uid'] == userSnapchat.data.uid,
+                    document[index]['userName'],
+                    user.userProfileImage,
+                  );
                 });
           },
         );

@@ -1,12 +1,25 @@
+import 'package:chat_app/model/user.dart';
+import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/profile_screen.dart';
 import 'package:chat_app/widget/message_footer.dart';
 import 'package:chat_app/widget/messages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   static final String routeName = '/chatscreen';
 
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  User user;
+  @override
+  void initState() {
+    user=UserDataProvider.getUser();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +56,7 @@ class ChatScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: Messages(),
+              child: Messages(user),
             ),
             MessageFooter()
           ],
