@@ -24,9 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       var user = await FirebaseAuth.instance.currentUser();
       if (user != null) {
-        final ref =
-            FirebaseStorage.instance.ref().child('user_images').child(user.uid);
-        var url = await ref.getDownloadURL();
         var userData = await Firestore.instance
             .collection('users')
             .document(user.uid)
@@ -34,9 +31,18 @@ class _SplashScreenState extends State<SplashScreen> {
         userName = userData['userName'];
         userEmail = userData['userEmail'];
         userUid = user.uid;
-        userProfileImage = url;
-        UserDataProvider.addUser(
-            userName, userEmail, userUid, userProfileImage);
+        try {
+          final ref = FirebaseStorage.instance.ref().child('user_images').child(
+              user.uid);
+          if (ref != null) {
+            var url = await ref.getDownloadURL();
+            userProfileImage = url;
+          }
+        }catch(e){
+          print(e);
+          print('image downoload');
+        }
+        UserDataProvider.addUser(userName, userEmail, userUid, userProfileImage);
         if (userData != null)
           Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
         else
@@ -45,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
       }
     } catch (e) {
+      print(e);
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }
   }

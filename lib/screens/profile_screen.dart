@@ -18,9 +18,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String imageUrl = '';
   String userName = "";
   String userEmail = '';
+  bool isImageUploading = false;
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.camera,maxWidth: 100,maxHeight: 100);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -31,20 +32,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getUserImage() async {
-    var user = await FirebaseAuth.instance.currentUser();
-    final ref =
-        FirebaseStorage.instance.ref().child('user_images').child(user.uid);
-    var url = await ref.getDownloadURL();
-    print(url);
-    setState(() {
-      imageUrl = url;
-    });
-    var userData =
-        await Firestore.instance.collection('users').document(user.uid).get();
-    setState(() {
-      userName = userData['userName'];
-      userEmail = userData['userEmail'];
-    });
+    try {
+      var user = await FirebaseAuth.instance.currentUser();
+      var userData = await Firestore.instance.collection('users').document(user.uid).get();
+      try {
+        final ref = FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+        var url = await ref.getDownloadURL();
+        print(url);
+        setState(() {
+          imageUrl = url;
+        });
+      } catch (e) {
+        print(e);
+      }
+
+      setState(() {
+            userName = userData['userName'];
+            userEmail = userData['userEmail'];
+          });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -55,16 +63,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void saveImage() async {
     if (_image != null) {
+      setState(() {
+        isImageUploading = true;
+      });
       var user = await FirebaseAuth.instance.currentUser();
-      final ref =
-          FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+      final ref = FirebaseStorage.instance.ref().child('user_images').child(user.uid);
       await ref.putFile(_image).onComplete;
       var url = await ref.getDownloadURL();
-
       await Firestore.instance
           .collection('users')
           .document(user.uid)
           .updateData({'imageUrl': url});
+      Navigator.of(context).pop();
     }
   }
 
@@ -105,7 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 70,
             ),
             Text(userName),
-            Text(userEmail)
+            Text(userEmail),
+            if (isImageUploading) CircularProgressIndicator(),
           ],
         ),
       ),
