@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_crop/image_crop.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,23 +21,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String userEmail = '';
   bool isImageUploading = false;
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera,maxWidth: 100,maxHeight: 100);
+  Future<Null> _cropImage(String imagePath) async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: imagePath,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
     setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
+      if (croppedFile != null) {
+        _image = croppedFile;
       } else {
         print('No image selected.');
       }
     });
   }
 
+  Future getImage() async {
+    final pickedFile = await picker.getImage(
+        source: ImageSource.camera, maxWidth: 100, maxHeight: 100);
+    _cropImage(pickedFile.path);
+    /*setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });*/
+  }
+
   void getUserImage() async {
     try {
       var user = await FirebaseAuth.instance.currentUser();
-      var userData = await Firestore.instance.collection('users').document(user.uid).get();
+      var userData =
+          await Firestore.instance.collection('users').document(user.uid).get();
       try {
-        final ref = FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+        final ref =
+            FirebaseStorage.instance.ref().child('user_images').child(user.uid);
         var url = await ref.getDownloadURL();
         print(url);
         setState(() {
@@ -47,9 +91,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
 
       setState(() {
-            userName = userData['userName'];
-            userEmail = userData['userEmail'];
-          });
+        userName = userData['userName'];
+        userEmail = userData['userEmail'];
+      });
     } catch (e) {
       print(e);
     }
@@ -67,7 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isImageUploading = true;
       });
       var user = await FirebaseAuth.instance.currentUser();
-      final ref = FirebaseStorage.instance.ref().child('user_images').child(user.uid);
+      final ref =
+          FirebaseStorage.instance.ref().child('user_images').child(user.uid);
       await ref.putFile(_image).onComplete;
       var url = await ref.getDownloadURL();
       await Firestore.instance
