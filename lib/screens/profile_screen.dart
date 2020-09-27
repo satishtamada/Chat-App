@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_crop/image_crop.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarColor: Colors.pink,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
@@ -62,15 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future getImage() async {
     final pickedFile = await picker.getImage(
-        source: ImageSource.camera, maxWidth: 100, maxHeight: 100);
+        source: ImageSource.camera);
     _cropImage(pickedFile.path);
-    /*setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });*/
   }
 
   void getUserImage() async {
