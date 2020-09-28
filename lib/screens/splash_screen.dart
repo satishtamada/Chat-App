@@ -3,6 +3,7 @@ import 'package:chat_app/model/user.dart';
 import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/auth_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
+import 'package:chat_app/screens/friends_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
      */
     final userList = await DBHelper.userList();
     if (userList.length > 0) {
-      Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(FriendsScreen.routeName);
     } else {
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }

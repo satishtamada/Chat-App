@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MessageFooter extends StatefulWidget {
+  final User user;
+
+  MessageFooter(this.user);
+
   @override
   _MessageFooterState createState() => _MessageFooterState();
 }
@@ -22,14 +27,11 @@ class _MessageFooterState extends State<MessageFooter> {
      * hide key board
      */
     FocusScope.of(context).unfocus();
-    var user = await FirebaseAuth.instance.currentUser();
-    var userData =
-        await Firestore.instance.collection('users').document(user.uid).get();
     Firestore.instance.collection('chat').add({
       'text': inputText,
       'createdAt': Timestamp.now(),
-      'uid': user.uid,
-      'userName': userData.data['userName'],
+      'uid': widget.user.userUid,
+      'userName': widget.user.userName,
     });
     /**
      * set input text as empty

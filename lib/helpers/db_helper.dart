@@ -14,6 +14,7 @@ class DBHelper {
   }
 
   static Future<void> insertUser(User user) async {
+    print(user.toMap().toString());
     // Get a reference to the database.
     final db = await DBHelper.database();
     // Insert the User into the correct table. You might also specify the
@@ -41,5 +42,12 @@ class DBHelper {
         maps[i]['userProfileImage'],
       );
     });
+  }
+
+  static Future<void> deleteUser() async {
+    // Get a reference to the database.
+    final db = await DBHelper.database();
+    db.delete('user');
+    // Query the table for all The Dogs.
   }
 }

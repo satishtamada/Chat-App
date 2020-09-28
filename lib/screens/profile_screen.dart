@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:chat_app/helpers/db_helper.dart';
+import 'package:chat_app/model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,10 +18,23 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File _image;
   final picker = ImagePicker();
-  String imageUrl = '';
-  String userName = "";
-  String userEmail = '';
   bool isImageUploading = false;
+  User user;
+
+  void getUserData() async {
+    final userData = await DBHelper.userList();
+    setState(() {
+      user = userData[0];
+    });
+    print("in profile screen");
+    print(user.toMap().toString());
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
   Future<Null> _cropImage(String imagePath) async {
     File croppedFile = await ImageCropper.cropImage(
@@ -61,16 +76,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
     _cropImage(pickedFile.path);
   }
 
+/*
   void getUserImage() async {
     try {
       var user = await FirebaseAuth.instance.currentUser();
-     /* var userData =
-          await Firestore.instance.collection('users').document(user.uid).get();*/
+     */
+/* var userData =
+          await Firestore.instance.collection('users').document(user.uid).get();*/ /*
+
       try {
         final ref =
             FirebaseStorage.instance.ref().child('user_images').child(user.uid);
@@ -83,20 +100,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print(e);
       }
 
-     /* setState(() {
+     */
+/* setState(() {
         userName = userData['userName'];
         userEmail = userData['userEmail'];
-      });*/
+      });*/ /*
+
     } catch (e) {
       print(e);
     }
   }
-
-  @override
-  initState() {
-    getUserImage();
-    super.initState();
-  }
+*/
 
   void saveImage() async {
     if (_image != null) {
@@ -139,8 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               tag: "222",
               child: CircleAvatar(
                 radius: 100,
-                backgroundImage:
-                    _image != null ? FileImage(_image) : NetworkImage(imageUrl),
+                backgroundImage: _image != null
+                    ? FileImage(_image)
+                    : NetworkImage(user.userProfileImage),
               ),
             ),
             FlatButton.icon(
@@ -152,8 +167,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: 70,
             ),
-            Text(userName),
-            Text(userEmail),
+            Text(user.userName),
+            Text(user.userEmail),
             if (isImageUploading) CircularProgressIndicator(),
           ],
         ),

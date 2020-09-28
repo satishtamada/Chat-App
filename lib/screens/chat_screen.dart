@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/db_helper.dart';
 import 'package:chat_app/model/user.dart';
 import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/auth_screen.dart';
@@ -16,11 +17,37 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   User user;
+  var isChangedDependenices = false;
+  var profileImage = "";
+  var userName;
+  var userId;
+
+  void getUserData() async {
+    final userData = await DBHelper.userList();
+    setState(() {
+      user = userData[0];
+    });
+    print("in chat screen");
+    print(user.toMap().toString());
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!isChangedDependenices) {
+      final args =
+          ModalRoute.of(context).settings.arguments as Map<String, String>;
+      userName = args['name'];
+      userId = args['id'];
+      profileImage = args['image'];
+      isChangedDependenices = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
-    user = UserDataProvider.getUser();
     super.initState();
+    getUserData();
   }
 
   @override
@@ -39,14 +66,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                   child: CircleAvatar(
                     radius: 20,
-                    backgroundImage: NetworkImage(user.userProfileImage),
+                    backgroundImage: NetworkImage(profileImage),
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
-              Text(user.userName),
+              Text(userName),
             ],
           ),
         ),
@@ -85,8 +112,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         )).then((onValue) {
                   if (onValue) {
                     FirebaseAuth.instance.signOut();
-                    UserDataProvider.clearUser();
-                    Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
+                    DBHelper.deleteUser();
+                    Navigator.of(context)
+                        .pushReplacementNamed(AuthScreen.routeName);
                   }
                 });
               }
@@ -100,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Expanded(
               child: Messages(user),
             ),
-            MessageFooter()
+            MessageFooter(user)
           ],
         ),
       ),
