@@ -5,5 +5,14 @@ class User {
   final String userEmail;
   final String userUid;
   final String userProfileImage;
-  User(this.userName, this.userEmail, this.userUid, this.userProfileImage);
+  User(this.userUid,this.userName, this.userEmail,  this.userProfileImage);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userUid': userUid,
+      'userName': userName,
+      'userEmail': userEmail,
+      'userProfileImage': userProfileImage,
+    };
+  }
 }

@@ -69,8 +69,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void getUserImage() async {
     try {
       var user = await FirebaseAuth.instance.currentUser();
-      var userData =
-          await Firestore.instance.collection('users').document(user.uid).get();
+     /* var userData =
+          await Firestore.instance.collection('users').document(user.uid).get();*/
       try {
         final ref =
             FirebaseStorage.instance.ref().child('user_images').child(user.uid);
@@ -83,10 +83,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print(e);
       }
 
-      setState(() {
+     /* setState(() {
         userName = userData['userName'];
         userEmail = userData['userEmail'];
-      });
+      });*/
     } catch (e) {
       print(e);
     }

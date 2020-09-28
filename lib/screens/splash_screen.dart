@@ -1,3 +1,5 @@
+import 'package:chat_app/helpers/db_helper.dart';
+import 'package:chat_app/model/user.dart';
 import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/auth_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
@@ -21,7 +23,16 @@ class _SplashScreenState extends State<SplashScreen> {
   String userUid = "";
 
   void checkIsUserLoginStatus() async {
-    try {
+    /**
+     * check is user available in data base
+     */
+    final userList = await DBHelper.userList();
+    if (userList.length > 0) {
+      Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
+    } else {
+      Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
+    }
+    /*try {
       var user = await FirebaseAuth.instance.currentUser();
       if (user != null) {
         var userData = await Firestore.instance
@@ -53,7 +64,11 @@ class _SplashScreenState extends State<SplashScreen> {
     } catch (e) {
       print(e);
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
-    }
+    }*/
+    /* User user = new User("111222", "satish", "sat@gmail.com", "profile pic");
+    DBHelper.insertUser(user);
+    final userList = await DBHelper.userList();
+    print(userList.length.toString());*/
   }
 
   @override
