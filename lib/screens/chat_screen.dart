@@ -77,50 +77,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ],
           ),
         ),
-        actions: <Widget>[
-          DropdownButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
-            items: [
-              DropdownMenuItem(
-                child: Text("Logout"),
-                value: 'logout',
-              ),
-            ],
-            onChanged: (value) {
-              if (value == 'logout') {
-                showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                          title: Text('Logout from device..?'),
-                          content: Text(
-                              'Are you really want to logout from the device.'),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(true);
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('No'),
-                              onPressed: () => Navigator.of(ctx).pop(false),
-                            )
-                          ],
-                        )).then((onValue) {
-                  if (onValue) {
-                    FirebaseAuth.instance.signOut();
-                    DBHelper.deleteUser();
-                    Navigator.of(context)
-                        .pushReplacementNamed(AuthScreen.routeName);
-                  }
-                });
-              }
-            },
-          ),
-        ],
       ),
       body: Container(
         child: Column(

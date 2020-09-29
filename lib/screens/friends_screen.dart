@@ -1,8 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/helpers/db_helper.dart';
+import 'package:chat_app/model/user.dart';
 import 'package:chat_app/screens/chat_screen.dart';
+import 'package:chat_app/screens/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'auth_screen.dart';
 
 class FriendsScreen extends StatefulWidget {
   static final String routeName = 'friends';
@@ -12,23 +18,55 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
+  User user;
 
-  void openChat(String userName,String userProfile,BuildContext context){
+  void getUserData() async {
+    final userData = await DBHelper.userList();
+    setState(() {
+      user = userData[0];
+    });
+    print("in friends screen");
+    print(user.toMap().toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  void openChat(String userName, String userProfile, BuildContext context) {
     print(userName);
     print(userProfile);
-    Navigator.of(context)
-        .pushNamed(ChatScreen.routeName, arguments: {
-      'id': "id",
-      'image': userProfile,
-      'name':userName
-    });
+    Navigator.of(context).pushNamed(ChatScreen.routeName,
+        arguments: {'id': "id", 'image': userProfile, 'name': userName});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Friends'),
+        actions: <Widget>[
+          DropdownButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
+            items: [
+              DropdownMenuItem(
+                child: Text("Settings"),
+                value: 'settings',
+              ),
+            ],
+            onChanged: (value) {
+              if (value == 'settings') {
+                Navigator.of(context).pushNamed(SettingsScreen.routeName);
+              }
+            },
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: Firestore.instance.collection("users").snapshots(),
@@ -42,7 +80,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    openChat(document[index]['userName'], document[index]['imageUrl'], context);
+                    openChat(document[index]['userName'],
+                        document[index]['imageUrl'], context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),

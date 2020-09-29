@@ -4,6 +4,7 @@ import 'package:chat_app/screens/auth_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/friends_screen.dart';
 import 'package:chat_app/screens/profile_screen.dart';
+import 'package:chat_app/screens/settings.dart';
 import 'package:chat_app/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _HomeAppState extends State<HomeApp> {
         ChatScreen.routeName: (ctx) => ChatScreen(),
         AuthScreen.routeName: (ctx) => AuthScreen(),
         FriendsScreen.routeName: (ctx) => FriendsScreen(),
+        SettingsScreen.routeName: (ctx) => SettingsScreen(),
       },
       /*home: StreamBuilder(
         stream: FirebaseAuth.instance.onAuthStateChanged,

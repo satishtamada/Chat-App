@@ -58,6 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
               .collection('users')
               .document(authResult.user.uid)
               .setData({
+            'uid': authResult.user.uid,
             'userName': username,
             'userEmail': userEmail,
             'imageUrl':
