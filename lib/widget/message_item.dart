@@ -20,7 +20,7 @@ class MessageItem extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(
-                color: isOwner ? Colors.red : Colors.grey,
+                color: isOwner ? Colors.redAccent : Colors.grey,
                 borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.all(8),
             child: Text(

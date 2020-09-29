@@ -2,6 +2,7 @@ import 'package:chat_app/screens/auth_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/friends_screen.dart';
 import 'package:chat_app/screens/full_image_screen.dart';
+import 'package:chat_app/screens/map_screen.dart';
 import 'package:chat_app/screens/profile_screen.dart';
 import 'package:chat_app/screens/settings.dart';
 import 'package:chat_app/screens/splash_screen.dart';
@@ -27,6 +28,7 @@ class _HomeAppState extends State<HomeApp> {
         AuthScreen.routeName: (ctx) => AuthScreen(),
         FriendsScreen.routeName: (ctx) => FriendsScreen(),
         SettingsScreen.routeName: (ctx) => SettingsScreen(),
+        MapScreen.routeName: (ctx) => MapScreen(),
         FullImagePreviewScreen.routeName: (ctx) => FullImagePreviewScreen(),
       },
       /*home: StreamBuilder(

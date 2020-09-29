@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_app/model/user.dart';
+import 'package:chat_app/screens/map_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _MessageFooterState extends State<MessageFooter> {
   void openAttachmentsBottomSheet(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
               top: Radius.circular(10), bottom: Radius.circular(10)),
@@ -57,41 +58,42 @@ class _MessageFooterState extends State<MessageFooter> {
           return GestureDetector(
             child: Container(
               height: 100.0,
-              color: Colors.white,
+              color: Colors.black,
               margin: EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.camera_alt,
-                      size: 40,
-                      color: Colors.green,
-                    ),
-                    onPressed: () {
-                      getImage(0);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.image,
-                      size: 40,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {
-                      getImage(1);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.location_searching,
-                      size: 40,
-                      color: Colors.blue,
-                    ),
-                    onPressed: () {},
-                  ),
+                  FlatButton(
+                      onPressed: (){
+                        getImage(0);
+                        Navigator.of(context).pop();
+                      },
+                      padding: EdgeInsets.all(0.0),
+                      child: Image.asset('assets/images/camera.png',width: 40,height: 40,)),
+                  FlatButton(
+                      onPressed: (){
+                        getImage(1);
+                        Navigator.of(context).pop();
+                      },
+                      padding: EdgeInsets.all(0.0),
+                      child: Image.asset('assets/images/gallery.png',width: 40,height: 40,)),
+                  FlatButton(
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(MapScreen.routeName)
+                            .then((value) {
+                          if (value != null) {
+                            print(value);
+                            setState(() {
+                              _inputController.text = value;
+                              inputText = value;
+                            });
+                          }
+                        });
+                      },
+                      padding: EdgeInsets.all(0.0),
+                      child: Image.asset('assets/images/map.png',width: 40,height: 40,)),
                 ],
               ),
             ),
@@ -160,7 +162,7 @@ class _MessageFooterState extends State<MessageFooter> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.attach_file),
+            icon: Icon(Icons.attach_file,color: Colors.blueGrey,),
             onPressed: () {
               openAttachmentsBottomSheet(context);
             },

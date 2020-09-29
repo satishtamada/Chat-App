@@ -23,7 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
   var userPassword = "";
   bool isLogin = true;
   var auth = FirebaseAuth.instance;
-  bool isLoaderShowing = true;
+  bool isLoaderShowing = false;
 
   bool validateEmail(String input) {
     bool emailValid = RegExp(
@@ -102,91 +102,118 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Card(
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Form(
-                key: _form,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    if (!isLogin)
-                      TextFormField(
-                        maxLines: 1,
-                        decoration: InputDecoration(labelText: 'Name'),
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        style: TextStyle(color: Colors.black),
-                        validator: (value) {
-                          if (value.trim().isEmpty) {
-                            return 'Please enter user name';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          username = value;
-                        },
-                      ),
-                    TextFormField(
-                      maxLines: 1,
-                      decoration: InputDecoration(labelText: 'Email'),
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      style: TextStyle(color: Colors.black),
-                      validator: (value) {
-                        if (!validateEmail(value)) {
-                          return 'Please enter valid email';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        userEmail = value;
-                      },
-                    ),
-                    TextFormField(
-                      maxLines: 1,
-                      obscureText: true,
-                      decoration: InputDecoration(labelText: 'Password'),
-                      textInputAction: TextInputAction.next,
-                      style: TextStyle(color: Colors.black),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        userPassword = value;
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        doRegister(context);
-                      },
-                      color: Colors.blue,
-                      child: Text(
-                        isLogin ? 'Login' : 'register',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        onRegisterLinkClicked();
-                      },
-                      child: Text(
-                          isLogin ? 'Create new user' : 'Already register..!'),
-                    ),
-                    if (isLoaderShowing) CircularProgressIndicator(),
-                  ],
-                ),
+      backgroundColor: Colors.teal,
+      body: SingleChildScrollView(
+        child: Container(
+          width: deviceSize.width,
+          height: deviceSize.height,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image.asset(
+                'assets/images/chat.png',
+                width: 70,
+                height: 70,
               ),
-            )),
+              SingleChildScrollView(
+                child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            if (!isLogin)
+                              TextFormField(
+                                maxLines: 1,
+                                decoration: InputDecoration(labelText: 'Name'),
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                style: TextStyle(color: Colors.black),
+                                validator: (value) {
+                                  if (value.trim().isEmpty) {
+                                    return 'Please enter user name';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  username = value;
+                                },
+                              ),
+                            TextFormField(
+                              maxLines: 1,
+                              decoration: InputDecoration(labelText: 'Email'),
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              style: TextStyle(color: Colors.black),
+                              validator: (value) {
+                                if (!validateEmail(value)) {
+                                  return 'Please enter valid email';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                userEmail = value;
+                              },
+                            ),
+                            TextFormField(
+                              maxLines: 1,
+                              obscureText: true,
+                              decoration:
+                                  InputDecoration(labelText: 'Password'),
+                              textInputAction: TextInputAction.next,
+                              style: TextStyle(color: Colors.black),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                userPassword = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            RaisedButton(
+                              onPressed: () {
+                                doRegister(context);
+                              },
+                              color: Colors.blue,
+                              child: Text(
+                                isLogin ? 'Login' : 'register',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                onRegisterLinkClicked();
+                              },
+                              child: Text(isLogin
+                                  ? 'Create new user'
+                                  : 'Already register..!'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+              ),
+              if (isLoaderShowing)
+                CircularProgressIndicator()
+              else
+                Text(
+                  'Welcome CHAT',
+                  style: TextStyle(color: Colors.white),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

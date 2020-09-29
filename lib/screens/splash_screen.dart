@@ -75,24 +75,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.teal,
       body: Center(
           child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              Icons.chat_bubble,
-              size: 80,
-              color: Colors.teal,
+            Image.asset(
+              'assets/images/chat.png',
+              width: 70,
+              height: 70,
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               'ChatApp',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.white),
             ),
             SizedBox(
               height: 100,
