@@ -1,11 +1,9 @@
 import 'package:chat_app/helpers/db_helper.dart';
 import 'package:chat_app/model/user.dart';
-import 'package:chat_app/providers/UserDataProvider.dart';
-import 'package:chat_app/screens/auth_screen.dart';
+import 'package:chat_app/screens/full_image_screen.dart';
 import 'package:chat_app/screens/profile_screen.dart';
 import 'package:chat_app/widget/message_footer.dart';
 import 'package:chat_app/widget/messages.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -55,14 +53,17 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Container(
           child: Row(
             children: <Widget>[
               Hero(
-                tag: "222",
+                tag: "111",
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(ProfileScreen.routeName);
+                    Navigator.of(context).pushNamed(
+                        FullImagePreviewScreen.routeName,
+                        arguments: {'image': profileImage});
                   },
                   child: CircleAvatar(
                     radius: 20,

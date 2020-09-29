@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/helpers/db_helper.dart';
 import 'package:chat_app/model/user.dart';
+import 'package:chat_app/screens/full_image_screen.dart';
+import 'package:chat_app/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     getUserData();
+  }
+
+  Widget getListItem(String title, String desc, Function function) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(desc),
+      onTap: function,
+    );
   }
 
   void logout(BuildContext context) {
@@ -80,14 +90,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: EdgeInsets.all(16),
             child: Row(
               children: <Widget>[
-                ClipOval(
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    imageUrl: user.userProfileImage,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
+                Hero(
+                  tag: '111',
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            FullImagePreviewScreen.routeName,
+                            arguments: {'image': user.userProfileImage});
+                      },
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          imageUrl: user.userProfileImage,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -96,7 +121,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(user.userName),
+                    Text(
+                      user.userName,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     Text(user.userEmail /**/)
                   ],
                 ),
@@ -104,26 +133,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           Divider(color: Colors.grey),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: ListView(
               children: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(Icons.power_settings_new),
-                  label: Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: () {
-                    logout(context);
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Logout from your device',
-                  ),
-                )
+                getListItem("Profile", "view or edit profile", (() {
+                  Navigator.of(context).pushNamed(ProfileScreen.routeName);
+                })),
+                getListItem("Logout", "logout from device", (() {
+                  logout(context);
+                })),
               ],
             ),
           )

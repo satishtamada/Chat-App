@@ -149,14 +149,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Hero(
-              tag: "222",
-              child: CircleAvatar(
-                radius: 100,
-                backgroundImage: _image != null
-                    ? FileImage(_image)
-                    : NetworkImage(user.userProfileImage),
-              ),
+            Text(
+              user.userName,
+              style: TextStyle(fontSize: 30),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CircleAvatar(
+              radius: 100,
+              backgroundImage: _image != null
+                  ? FileImage(_image)
+                  : NetworkImage(user.userProfileImage),
+            ),
+            SizedBox(
+              height: 30,
             ),
             FlatButton.icon(
                 onPressed: () {
@@ -167,8 +174,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: 70,
             ),
-            Text(user.userName),
-            Text(user.userEmail),
             if (isImageUploading) CircularProgressIndicator(),
           ],
         ),

@@ -1,12 +1,6 @@
 import 'package:chat_app/helpers/db_helper.dart';
-import 'package:chat_app/model/user.dart';
-import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/auth_screen.dart';
-import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/friends_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -91,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Icon(
               Icons.chat_bubble,
               size: 80,
-              color: Colors.deepPurpleAccent,
+              color: Colors.teal,
             ),
             SizedBox(
               height: 10,

@@ -45,7 +45,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(225, 223, 225, 1),
       appBar: AppBar(
         title: Text('Friends'),
         actions: <Widget>[
@@ -84,7 +84,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                         document[index]['imageUrl'], context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(16),
                     child: Row(
                       children: <Widget>[
                         ClipOval(

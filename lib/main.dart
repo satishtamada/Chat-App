@@ -1,14 +1,11 @@
-import 'dart:io';
-import 'package:chat_app/providers/UserDataProvider.dart';
 import 'package:chat_app/screens/auth_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/friends_screen.dart';
+import 'package:chat_app/screens/full_image_screen.dart';
 import 'package:chat_app/screens/profile_screen.dart';
 import 'package:chat_app/screens/settings.dart';
 import 'package:chat_app/screens/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() => runApp(HomeApp());
 
@@ -30,6 +27,7 @@ class _HomeAppState extends State<HomeApp> {
         AuthScreen.routeName: (ctx) => AuthScreen(),
         FriendsScreen.routeName: (ctx) => FriendsScreen(),
         SettingsScreen.routeName: (ctx) => SettingsScreen(),
+        FullImagePreviewScreen.routeName: (ctx) => FullImagePreviewScreen(),
       },
       /*home: StreamBuilder(
         stream: FirebaseAuth.instance.onAuthStateChanged,
@@ -41,7 +39,7 @@ class _HomeAppState extends State<HomeApp> {
         },
       ),*/
       theme: ThemeData(
-          primarySwatch: Colors.pink,
+          primarySwatch: Colors.teal,
           accentColor: Colors.amber,
           canvasColor: Color.fromRGBO(225, 225, 225, 1),
           fontFamily: 'Quicksand',

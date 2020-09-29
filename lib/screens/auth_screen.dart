@@ -23,7 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
   var userPassword = "";
   bool isLogin = true;
   var auth = FirebaseAuth.instance;
-  bool isLoaderShowing = false;
+  bool isLoaderShowing = true;
 
   bool validateEmail(String input) {
     bool emailValid = RegExp(
