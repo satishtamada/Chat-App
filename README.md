@@ -15,7 +15,7 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/1.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/1.png)
 ![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/2.jpeg)
 ![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/3.jpeg)
 ![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/4.jpeg)
