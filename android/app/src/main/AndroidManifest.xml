@@ -27,6 +27,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyARU9-su1e8TNtx_okYtXe1cVwCWDCOu0c"/>
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

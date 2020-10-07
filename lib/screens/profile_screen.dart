@@ -75,9 +75,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    _cropImage(pickedFile.path);
+  Future getImage(int type) async {
+    var pickedFile;
+    if (type == 1) {
+      pickedFile = await picker.getImage(source: ImageSource.camera);
+    } else {
+      pickedFile = await picker.getImage(source: ImageSource.gallery);
+    }
+    if (pickedFile != null) _cropImage(pickedFile.path);
   }
 
 /*
@@ -130,6 +135,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _askedToLead() async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Choose your image From'),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: const Text('Camera',style: TextStyle(fontSize: 15),),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 2);
+                },
+                child: const Text('Gallery',style: TextStyle(fontSize: 15),),
+              ),
+            ],
+          );
+        })) {
+      case 1:
+        getImage(1);
+        break;
+      case 2:
+        getImage(2);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,7 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             FlatButton.icon(
                 onPressed: () {
-                  getImage();
+                  _askedToLead();
+                  //getImage();
                 },
                 icon: Icon(Icons.camera_alt),
                 label: Text('Change profile')),

@@ -4,6 +4,7 @@ import 'package:chat_app/model/user.dart';
 import 'package:chat_app/screens/map_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -133,13 +134,12 @@ class _MessageFooterState extends State<MessageFooter> {
         iosUiSettings: IOSUiSettings(
           title: 'Cropper',
         ));
-    setState(() {
-      if (croppedFile != null) {
-        _image = croppedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (croppedFile != null) {
+      _image = croppedFile;
+      saveImage();
+    } else {
+      print('No image selected.');
+    }
   }
 
   Future getImage(int type) async {
@@ -153,6 +153,19 @@ class _MessageFooterState extends State<MessageFooter> {
       _cropImage(pickedFile.path);
     }
   }
+
+  void saveImage() async {
+    if (_image != null) {
+      final ref =
+      FirebaseStorage.instance.ref().child('chat_images').child("1111");
+      await ref.putFile(_image).onComplete;
+      var url = await ref.getDownloadURL();
+      inputText=url.toString();
+      _sendMessage();
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,11 +24,13 @@ class MessageItem extends StatelessWidget {
                 color: isOwner ? Colors.redAccent : Colors.grey,
                 borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.all(8),
-            child: Text(
-              message,
-              softWrap: true,
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
+            child: message.contains("https://")
+                ? CachedNetworkImage(imageUrl: message,width: 80,height: 80,)
+                : Text(
+                    message,
+                    softWrap: true,
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
