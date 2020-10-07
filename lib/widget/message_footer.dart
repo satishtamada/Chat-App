@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:chat_app/model/user.dart';
 import 'package:chat_app/screens/map_screen.dart';
@@ -65,21 +66,29 @@ class _MessageFooterState extends State<MessageFooter> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         getImage(0);
                         Navigator.of(context).pop();
                       },
                       padding: EdgeInsets.all(0.0),
-                      child: Image.asset('assets/images/camera.png',width: 40,height: 40,)),
+                      child: Image.asset(
+                        'assets/images/camera.png',
+                        width: 40,
+                        height: 40,
+                      )),
                   FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         getImage(1);
                         Navigator.of(context).pop();
                       },
                       padding: EdgeInsets.all(0.0),
-                      child: Image.asset('assets/images/gallery.png',width: 40,height: 40,)),
+                      child: Image.asset(
+                        'assets/images/gallery.png',
+                        width: 40,
+                        height: 40,
+                      )),
                   FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.of(context)
                             .pushNamed(MapScreen.routeName)
@@ -94,7 +103,11 @@ class _MessageFooterState extends State<MessageFooter> {
                         });
                       },
                       padding: EdgeInsets.all(0.0),
-                      child: Image.asset('assets/images/map.png',width: 40,height: 40,)),
+                      child: Image.asset(
+                        'assets/images/map.png',
+                        width: 40,
+                        height: 40,
+                      )),
                 ],
               ),
             ),
@@ -156,16 +169,16 @@ class _MessageFooterState extends State<MessageFooter> {
 
   void saveImage() async {
     if (_image != null) {
-      final ref =
-      FirebaseStorage.instance.ref().child('chat_images').child("1111");
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('chat_images')
+          .child(new DateTime.now().toString());
       await ref.putFile(_image).onComplete;
       var url = await ref.getDownloadURL();
-      inputText=url.toString();
+      inputText = url.toString();
       _sendMessage();
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +188,10 @@ class _MessageFooterState extends State<MessageFooter> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.attach_file,color: Colors.blueGrey,),
+            icon: Icon(
+              Icons.attach_file,
+              color: Colors.blueGrey,
+            ),
             onPressed: () {
               openAttachmentsBottomSheet(context);
             },
