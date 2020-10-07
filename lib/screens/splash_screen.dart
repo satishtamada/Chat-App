@@ -27,43 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }
-    /*try {
-      var user = await FirebaseAuth.instance.currentUser();
-      if (user != null) {
-        var userData = await Firestore.instance
-            .collection('users')
-            .document(user.uid)
-            .get();
-        userName = userData['userName'];
-        userEmail = userData['userEmail'];
-        userUid = user.uid;
-        try {
-          final ref = FirebaseStorage.instance.ref().child('user_images').child(
-              user.uid);
-          if (ref != null) {
-            var url = await ref.getDownloadURL();
-            userProfileImage = url;
-          }
-        }catch(e){
-          print(e);
-          print('image downoload');
-        }
-        UserDataProvider.addUser(userName, userEmail, userUid, userProfileImage);
-        if (userData != null)
-          Navigator.of(context).pushReplacementNamed(ChatScreen.routeName);
-        else
-          Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
-      } else {
-        Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
-      }
-    } catch (e) {
-      print(e);
-      Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
-    }*/
-    /* User user = new User("111222", "satish", "sat@gmail.com", "profile pic");
-    DBHelper.insertUser(user);
-    final userList = await DBHelper.userList();
-    print(userList.length.toString());*/
   }
 
   @override
