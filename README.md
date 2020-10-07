@@ -14,3 +14,15 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/1.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/2.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/3.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/4.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/5.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/6.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/7.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/8.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/9.jpeg)
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/10.jpeg)
+
