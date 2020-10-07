@@ -16,13 +16,4 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/1.png)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/2.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/3.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/4.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/5.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/6.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/7.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/8.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/9.jpeg)
-![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/10.jpeg)
-
+![alt tag](https://github.com/satishtamada/Chat-App/blob/master/screens/2.png)
